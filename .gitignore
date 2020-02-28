@@ -40,4 +40,5 @@ lib/generated_plugin_registrant.dart
 android/app/src/main/AndroidManifest.xml
 ios/Runner/AppDelegate.swift
 
-
+#binary
+run_driver
