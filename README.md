@@ -1,4 +1,5 @@
 #setup
+
 you will need to add your google maps api keys (ios and Android) in two places
 
 android/app/src/main/AndroidManifest.xml
