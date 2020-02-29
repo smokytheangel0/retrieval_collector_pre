@@ -1,4 +1,9 @@
 #setup
+you will need the flutter toolchain to run the app
+and the rust toolchain to run the driver script
+you can find instructions at these links
+https://flutter.dev/docs/get-started/install
+https://www.rust-lang.org/tools/install
 
 you will need to add your google maps api keys (ios and Android) in two places
 ```
