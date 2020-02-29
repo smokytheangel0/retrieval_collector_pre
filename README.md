@@ -5,6 +5,11 @@ you can find instructions at these links
 https://flutter.dev/docs/get-started/install
 https://www.rust-lang.org/tools/install
 
+after installing flutter you should use the master channel by running
+```
+flutter channel master
+```
+
 you will need to add your google maps api keys (ios and Android) in two places
 ```
 android/app/src/main/_AndroidManifest.xml
