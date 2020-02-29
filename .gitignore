@@ -43,3 +43,6 @@ ios/Runner/AppDelegate.swift
 #binary
 run_driver
 attach_address
+
+#notes
+notes
