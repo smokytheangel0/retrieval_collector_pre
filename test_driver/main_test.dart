@@ -403,12 +403,19 @@ void main() {
     });
 
     //groups:
+    //    
     //    new record:
     //      AUTO!
+    //        timer stops as soon as end is pressed, not when the location has been saved
+    //        map button disables after toggle
+    //        map buttons disable after transit
+    //         timer counts while in transit
     //      name too long
     //      details too long
     //      seconds rejects numbers
     //      minutes rejects numbers (can enter with driver, not restricted to numpad)
+    //      map is disabled while in transit
+    //      map buttons are disabled after transit
     //    new record map:
     //      accepts completed locations
     //      still has buttons after done setting map locations
