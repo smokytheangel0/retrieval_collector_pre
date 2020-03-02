@@ -125,6 +125,34 @@ void main() {
       }, timeout: TIMEOUT);
     });
 
+    group("new record", () {
+      test("auto timer stops when end button is pressed", () async {
+        await reset(driver);
+        
+        await go_to_new_record_from_home(driver);
+        await expect_tap("auto_toggle", driver);
+        next_waypoint();
+        await expect_tap("start_button", driver);
+        await wait_for_text("please travel to the end location", driver);
+        await wait_for_text("5 seconds", driver);
+
+        await expect_tap("end_button", driver);
+        await assert_text("5 seconds", driver);
+
+      }, timeout: TIMEOUT);
+    });
+
+    group("new record", () {
+      test("auto toggle disables map until locations set", () async {
+        await reset(driver);
+        
+        await go_to_new_record_from_home(driver);
+        await expect_tap("auto_toggle", driver);
+        await expect_tap("map_button", driver);
+        await assert_text("New Record", driver);
+      }, timeout: TIMEOUT);
+    });
+
     group("new record map", () {
       test("rejects no location set", () async {
         await reset(driver);
@@ -221,6 +249,39 @@ void main() {
         await set_up_map_locations(["end"], driver);
         await expect_tap("map_end_button", driver);
         await assert_text("the end location has already been set!", driver);
+      }, timeout: TIMEOUT);
+    });
+
+    group("new record map", () {
+      test("hides buttons after locations set auto",() async {
+        await reset(driver);
+        await go_to_new_record_from_home(driver);
+        await expect_tap("auto_toggle", driver);
+        await expect_tap("start_button", driver);
+        await wait_for_text("please travel to the end location", driver);
+        await expect_tap("end_button", driver);
+        await expect_tap("map_button", driver);
+        if (await view_shows_text("start", driver)) {
+          expect(true, false, reason: "start button was not hidden on new record map after locations set in new record");
+        }
+        if (await view_shows_text("end", driver)) {
+          expect(true, false, reason: "end button was not hidden on new record map after locations set in new record");
+        }
+      }, timeout: TIMEOUT);
+    });
+
+    group("new record map", () {
+      test("hides buttons after locations set estimate", () async {
+        await reset(driver);
+        await go_to_new_record_from_home(driver);
+        await set_up_new_record_fields(["name", "seconds", "locations"], driver);
+        await expect_tap("map_button", driver);
+        if (await view_shows_text("start", driver)) {
+          expect(true, false, reason: "start button was not hidden on new record map after locations set in new record");
+        }
+         if (await view_shows_text("end", driver)) {
+          expect(true, false, reason: "end button was not hidden on new record map after locations set in new record");
+        }
       }, timeout: TIMEOUT);
     });
 
@@ -402,13 +463,15 @@ void main() {
       }, timeout: TIMEOUT);
     });
 
+
+
     //groups:
     //    
     //    new record:
     //      AUTO!
-    //        timer stops as soon as end is pressed, not when the location has been saved
-    //        map button disables after toggle
-    //        map buttons disable after transit
+    //        //timer stops as soon as end is pressed, not when the location has been saved
+    //        //map button disables after toggle
+    //        //map buttons disable after transit
     //         timer counts while in transit
     //      name too long
     //      details too long
@@ -417,11 +480,11 @@ void main() {
     //      map is disabled while in transit
     //      map buttons are disabled after transit
     //    new record map:
-    //      accepts completed locations
+    //      /accepts completed locations
     //      still has buttons after done setting map locations
-    //      has no buttons after locations set in new record both auto and detective/direct combo
+    //      //has no buttons after locations set in new record both auto and detective/direct combo
     //    direct map:
-    //      map saves timer state, and timer is greater than before
+    //      //map saves timer state, and timer is greater than before
     //
     //
   });
