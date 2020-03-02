@@ -21,7 +21,7 @@ void main() {
         driver.close();
       }
     });
-
+    /*
     group("new record", () {
       test("rejects no fields completed", () async {
         await reset(driver);
@@ -235,10 +235,12 @@ void main() {
         if (await toast_shows_text(
             "please wait for accurate location...", driver)) {
           expect(true, false,
-              reason: "start was not set after setting both locations in new record map");
+              reason:
+                  "start was not set after setting both locations in new record map");
         }
         await expect_tap("end_button", driver);
-        if (await toast_shows_text("please wait for accurate location...", driver)) {
+        if (await toast_shows_text(
+            "please wait for accurate location...", driver)) {
           expect(true, false,
               reason:
                   "end was not set after setting both locations in new record map");
@@ -352,6 +354,34 @@ void main() {
         await assert_text("Review", driver);
       }, timeout: TIMEOUT);
     });
+    */
+    group("direct_map", () {
+      test("saves state and passes it back to direct", () async {
+        await reset(driver);
+        await set_up_direct_record(driver);
+        await go_to_direct_from_home(driver);
+        next_waypoint();
+        await wait_for_text("please travel to the end location", driver);
+        next_waypoint();
+        await wait_for_text("detected end location", driver);
+        var seconds_text_before = await driver.getText(find.byValueKey("timer_text"));
+        var seconds_before = int.parse(seconds_text_before.split(" ")[0]);
+        await expect_tap("map_button", driver);
+        await expect_tap("map_done_button", driver);
+        
+        var seconds_text_after = await driver.getText(find.byValueKey("timer_text"));
+        var seconds_after = int.parse(seconds_text_after.split(" ")[0]);
+        expect(seconds_after == seconds_before, true, reason: "the seconds were reset after visiting direct map");
+        next_waypoint();
+        next_waypoint();
+        if (await toast_shows_text(
+            "please travel to the end location", driver)) {
+          expect(true, false,
+              reason: "direct map did not save the state of the direct fields");
+        }
+        
+      }, timeout: TIMEOUT);
+    });
 
     //groups:
     //    new record:
@@ -364,16 +394,6 @@ void main() {
     //      accepts completed locations
     //      still has buttons after done setting map locations
     //      has no buttons after locations set in new record both auto and detective/direct combo
-    //    direct:
-    //      //rejects no locations set
-    //      //notifies when start encountered
-    //      //notifies when end encountered
-    //      //rejects one location set
-    //      //rejects end before start
-    //      //make sure 'travel to end' message does not show when not at start location
-    //      //make sure 'travel to end' message shows when at start location
-    //      //make sure 'end location detected' message shows when at end location
-    //      //accepts both locations set
     //    direct map:
     //      map saves timer state, and timer is greater than before
     //
