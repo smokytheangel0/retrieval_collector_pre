@@ -298,7 +298,7 @@ void main() {
         if (!await view_shows_text("end", driver)) {
           expect(true, false, reason: "new record map end button was hidden after setting locations with map");
         }
-      });
+      }, timeout: TIMEOUT);
     });
 
     group("new record map", () {
