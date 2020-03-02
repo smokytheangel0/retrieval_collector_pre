@@ -6,7 +6,8 @@ finding a particular trailer in a carrier's storage yard.
 
 # setup
 you will need the flutter toolchain to run the app\
-and the rust toolchain to run the driver script (located at: https://github.com/smokytheangel0/run_driver_RC)\
+and the rust toolchain to run the driver script (located at: https://github.com/smokytheangel0/run_driver_RC)
+
 you can find instructions at these links\
 https://flutter.dev/docs/get-started/install  
 https://www.rust-lang.org/tools/install
