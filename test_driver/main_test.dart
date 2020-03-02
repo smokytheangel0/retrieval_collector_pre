@@ -286,6 +286,22 @@ void main() {
     });
 
     group("new record map", () {
+      test("still has buttons after setting locations via map", () async {
+        await reset(driver);
+        await go_to_new_record_map_from_home(driver);
+        await set_up_map_locations(["start", "end"], driver);
+        await expect_tap("map_done_button", driver);
+        await expect_tap("map_button", driver);
+        if (!await view_shows_text("start", driver)) {
+          expect(true, false, reason: "new record map start buttons was hidden after setting locations with map");
+        }
+        if (!await view_shows_text("end", driver)) {
+          expect(true, false, reason: "new record map end button was hidden after setting locations with map");
+        }
+      });
+    });
+
+    group("new record map", () {
       test("accepts complete locations and saves them", () async {
         await reset(driver);
         await go_to_new_record_map_from_home(driver);
@@ -485,6 +501,8 @@ void main() {
     //      //has no buttons after locations set in new record both auto and detective/direct combo
     //    direct map:
     //      //map saves timer state, and timer is greater than before
+    //    review:
+    //      data displayed as entered
     //
     //
   });
