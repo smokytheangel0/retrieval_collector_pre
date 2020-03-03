@@ -22,6 +22,7 @@ void main() {
       }
     });
     
+    
     group("new record", () {
       test("rejects no fields completed", () async {
         await reset(driver);
@@ -153,6 +154,18 @@ void main() {
       }, timeout: TIMEOUT);
     });
 
+    group("new record", () {
+      test("auto timer increments after start", () async {
+        await reset(driver);
+        
+        await go_to_new_record_from_home(driver);
+        await expect_tap("auto_toggle", driver);
+        await expect_tap("start_button", driver);
+        await wait_for_text("1 seconds", driver);
+        await assert_text("2 seconds", driver);
+      }, timeout: TIMEOUT);
+    });
+
     group("new record map", () {
       test("rejects no location set", () async {
         await reset(driver);
@@ -251,7 +264,7 @@ void main() {
         await assert_text("the end location has already been set!", driver);
       }, timeout: TIMEOUT);
     });
-
+    
     group("new record map", () {
       test("hides buttons after locations set auto",() async {
         await reset(driver);
@@ -269,6 +282,7 @@ void main() {
         }
       }, timeout: TIMEOUT);
     });
+    
 
     group("new record map", () {
       test("hides buttons after locations set estimate", () async {
