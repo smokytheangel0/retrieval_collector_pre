@@ -544,8 +544,8 @@ void main() {
     //         //timer counts while in transit
     //      name too long
     //      details too long
-    //      seconds rejects numbers
-    //      minutes rejects numbers (can enter with driver, not restricted to numpad)
+    //      //seconds rejects numbers
+    //      //minutes rejects numbers (can enter with driver, not restricted to numpad)
     //      //map is disabled while in transit
     //      //map buttons are disabled after transit
     //    new record map:
