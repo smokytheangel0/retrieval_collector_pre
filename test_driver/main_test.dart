@@ -76,33 +76,6 @@ void main() {
     });
 
     group("new record", () {
-      test("rejects alpha in seconds field", () async {
-        await reset(driver);
-
-        await go_to_new_record_from_home(driver);
-        await set_up_new_record_fields(["name"], driver);
-
-        await expect_tap("second_field", driver);
-        await enter_text("abc", driver);
-
-        await expect_tap("done_button", driver);
-        await assert_text("numbers only", driver);
-      }, timeout: TIMEOUT);
-    });
-
-    group("new record", () {
-      test("rejects alpha in minutes field", () async {
-        await reset(driver);
-
-        await go_to_new_record_from_home(driver);
-        await set_up_new_record_fields(["name", "seconds"], driver);
-
-        await expect_tap("minutes_field", driver);
-        await assert_text("numbers only", driver);
-      }, timeout: TIMEOUT);
-    });
-
-    group("new record", () {
       test("accepts all fields complete, and saves record", () async {
         await reset(driver);
 
