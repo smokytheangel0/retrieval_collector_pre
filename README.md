@@ -90,3 +90,17 @@ to follow up later, you perform the same steps as the auto follow up
 
 ### it is important to note that the anecdotal records are not separated from auto at the current time
 ### this is a database design flaw on my part which will be corrected in later versions
+
+# trivia
+This project began as an unplanned though altogether neccesary step before\
+before beginning the MiFare Ultralight C based trailer custody/locator app. \
+This data collector took a week and a half to get to the 'not quite done' stage \
+that it was in as of the initial commit here. \
+and was really my first excercise in pushing as hard as I could to finish \
+so that the 'real work' could begin. \
+The 'real work' was later dropped due to new supplier restrictions on minimum orders\
+of the fare cards.
+
+It was intended to be a cheap alternative to whatever solution the transportation \
+company's contractors could stack up, designed to address primarily the needs of \
+the drivers, mechanics, yard crew, and lower management.
