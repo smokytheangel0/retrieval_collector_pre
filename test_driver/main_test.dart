@@ -21,8 +21,7 @@ void main() {
         driver.close();
       }
     });
-    
-    
+
     group("new record", () {
       test("rejects no fields completed", () async {
         await reset(driver);
@@ -73,6 +72,21 @@ void main() {
         await expect_tap("done_button", driver);
         await assert_text(
             "please enter any consistent name for the record", driver);
+      }, timeout: TIMEOUT);
+    });
+
+    group("new record", () {
+      test("rejects alpha in seconds field", () async {
+        await reset(driver);
+
+        await go_to_new_record_from_home(driver);
+        await set_up_new_record_fields(["name"], driver);
+
+        await expect_tap("second_field", driver);
+        await enter_text("abc", driver);
+
+        await expect_tap("done_button", driver);
+        await assert_text("numbers only", driver);
       }, timeout: TIMEOUT);
     });
 
@@ -129,7 +143,7 @@ void main() {
     group("new record", () {
       test("auto timer stops when end button is pressed", () async {
         await reset(driver);
-        
+
         await go_to_new_record_from_home(driver);
         await expect_tap("auto_toggle", driver);
         next_waypoint();
@@ -139,14 +153,13 @@ void main() {
 
         await expect_tap("end_button", driver);
         await assert_text("5 seconds", driver);
-
       }, timeout: TIMEOUT);
     });
 
     group("new record", () {
       test("auto toggle disables map until locations set", () async {
         await reset(driver);
-        
+
         await go_to_new_record_from_home(driver);
         await expect_tap("auto_toggle", driver);
         await expect_tap("map_button", driver);
@@ -157,7 +170,7 @@ void main() {
     group("new record", () {
       test("auto timer increments after start", () async {
         await reset(driver);
-        
+
         await go_to_new_record_from_home(driver);
         await expect_tap("auto_toggle", driver);
         await expect_tap("start_button", driver);
@@ -264,9 +277,9 @@ void main() {
         await assert_text("the end location has already been set!", driver);
       }, timeout: TIMEOUT);
     });
-    
+
     group("new record map", () {
-      test("hides buttons after locations set auto",() async {
+      test("hides buttons after locations set auto", () async {
         await reset(driver);
         await go_to_new_record_from_home(driver);
         await expect_tap("auto_toggle", driver);
@@ -275,26 +288,34 @@ void main() {
         await expect_tap("end_button", driver);
         await expect_tap("map_button", driver);
         if (await view_shows_text("start", driver)) {
-          expect(true, false, reason: "start button was not hidden on new record map after locations set in new record");
+          expect(true, false,
+              reason:
+                  "start button was not hidden on new record map after locations set in new record");
         }
         if (await view_shows_text("end", driver)) {
-          expect(true, false, reason: "end button was not hidden on new record map after locations set in new record");
+          expect(true, false,
+              reason:
+                  "end button was not hidden on new record map after locations set in new record");
         }
       }, timeout: TIMEOUT);
     });
-    
 
     group("new record map", () {
       test("hides buttons after locations set estimate", () async {
         await reset(driver);
         await go_to_new_record_from_home(driver);
-        await set_up_new_record_fields(["name", "seconds", "locations"], driver);
+        await set_up_new_record_fields(
+            ["name", "seconds", "locations"], driver);
         await expect_tap("map_button", driver);
         if (await view_shows_text("start", driver)) {
-          expect(true, false, reason: "start button was not hidden on new record map after locations set in new record");
+          expect(true, false,
+              reason:
+                  "start button was not hidden on new record map after locations set in new record");
         }
-         if (await view_shows_text("end", driver)) {
-          expect(true, false, reason: "end button was not hidden on new record map after locations set in new record");
+        if (await view_shows_text("end", driver)) {
+          expect(true, false,
+              reason:
+                  "end button was not hidden on new record map after locations set in new record");
         }
       }, timeout: TIMEOUT);
     });
@@ -307,10 +328,14 @@ void main() {
         await expect_tap("map_done_button", driver);
         await expect_tap("map_button", driver);
         if (!await view_shows_text("start", driver)) {
-          expect(true, false, reason: "new record map start buttons was hidden after setting locations with map");
+          expect(true, false,
+              reason:
+                  "new record map start buttons was hidden after setting locations with map");
         }
         if (!await view_shows_text("end", driver)) {
-          expect(true, false, reason: "new record map end button was hidden after setting locations with map");
+          expect(true, false,
+              reason:
+                  "new record map end button was hidden after setting locations with map");
         }
       }, timeout: TIMEOUT);
     });
@@ -445,7 +470,7 @@ void main() {
         await assert_text("Review", driver);
       }, timeout: TIMEOUT);
     });
-    
+
     group("direct_map", () {
       test("saves state and passes it back to direct", () async {
         await reset(driver);
@@ -455,14 +480,17 @@ void main() {
         await wait_for_text("please travel to the end location", driver);
         next_waypoint();
         await wait_for_text("detected end location", driver);
-        var seconds_text_before = await driver.getText(find.byValueKey("timer_text"));
+        var seconds_text_before =
+            await driver.getText(find.byValueKey("timer_text"));
         var seconds_before = int.parse(seconds_text_before.split(" ")[0]);
         await expect_tap("map_button", driver);
         await expect_tap("map_done_button", driver);
 
-        var seconds_text_after = await driver.getText(find.byValueKey("timer_text"));
+        var seconds_text_after =
+            await driver.getText(find.byValueKey("timer_text"));
         var seconds_after = int.parse(seconds_text_after.split(" ")[0]);
-        expect(seconds_after == seconds_before, true, reason: "the seconds were reset after visiting direct map");
+        expect(seconds_after == seconds_before, true,
+            reason: "the seconds were reset after visiting direct map");
         next_waypoint();
         next_waypoint();
         if (await toast_shows_text(
@@ -470,10 +498,8 @@ void main() {
           expect(true, false,
               reason: "direct map did not save the state of the direct fields");
         }
-        
       }, timeout: TIMEOUT);
     });
-    
 
     group("direct_map", () {
       test("seconds increment while using map", () async {
@@ -482,36 +508,37 @@ void main() {
         await go_to_direct_from_home(driver);
         next_waypoint();
         await wait_for_text("please travel to the end location", driver);
-        var seconds_text_before = await driver.getText(find.byValueKey("timer_text"));
+        var seconds_text_before =
+            await driver.getText(find.byValueKey("timer_text"));
         var seconds_before = int.parse(seconds_text_before.split(" ")[0]);
         await expect_tap("map_button", driver);
         await expect_tap("map_done_button", driver);
 
-        var seconds_text_after = await driver.getText(find.byValueKey("timer_text"));
+        var seconds_text_after =
+            await driver.getText(find.byValueKey("timer_text"));
         var seconds_after = int.parse(seconds_text_after.split(" ")[0]);
-        expect(seconds_after > seconds_before, true, reason: "the seconds did not increment while using direct map");
+        expect(seconds_after > seconds_before, true,
+            reason: "the seconds did not increment while using direct map");
       }, timeout: TIMEOUT);
     });
 
-
-
     //groups:
-    //    
+    //
     //    new record:
     //      AUTO!
     //        //timer stops as soon as end is pressed, not when the location has been saved
     //        //map button disables after toggle
     //        //map buttons disable after transit
-    //         timer counts while in transit
+    //         //timer counts while in transit
     //      name too long
     //      details too long
     //      seconds rejects numbers
     //      minutes rejects numbers (can enter with driver, not restricted to numpad)
-    //      map is disabled while in transit
-    //      map buttons are disabled after transit
+    //      //map is disabled while in transit
+    //      //map buttons are disabled after transit
     //    new record map:
     //      /accepts completed locations
-    //      still has buttons after done setting map locations
+    //      //still has buttons after done setting map locations
     //      //has no buttons after locations set in new record both auto and detective/direct combo
     //    direct map:
     //      //map saves timer state, and timer is greater than before
